@@ -14,6 +14,8 @@ namespace DollHouse {
         [SerializeField] private LayerMask _furnitureMask;
         [SerializeField] private LayerMask _fingerSurfaceMask; // floor + furniture
         [SerializeField] private string _fingerPrefabName = "GiantFinger";
+        [Tooltip("Half extents of the room interior (x, z); dragged furniture is kept inside.")]
+        [SerializeField] private Vector2 _roomHalfExtents = new Vector2(3.95f, 2.95f);
 
         private GiantFinger       _finger;
         private RealtimeTransform _fingerTransform;
@@ -21,6 +23,8 @@ namespace DollHouse {
         private RealtimeTransform _draggedItem;
         private float             _dragPlaneY;
         private Vector3           _dragOffset;
+        private Vector3           _dragHalfSize;     // world AABB extents of the dragged item
+        private Vector3           _dragCenterOffset; // bounds center relative to transform position
         private bool              _wasPressed;
 
         private void OnEnable() {
@@ -62,11 +66,22 @@ namespace DollHouse {
                         _dragPlaneY  = rt.transform.position.y;
                         Vector3 planePoint = PointOnPlane(ray, _dragPlaneY);
                         _dragOffset  = rt.transform.position - planePoint;
+                        Bounds itemBounds = grabHit.collider.bounds;
+                        _dragHalfSize     = itemBounds.extents;
+                        _dragCenterOffset = itemBounds.center - rt.transform.position;
                     }
                 }
             } else if (pressed && _draggedItem != null) {
                 Vector3 planePoint = PointOnPlane(ray, _dragPlaneY);
-                _draggedItem.transform.position = planePoint + _dragOffset;
+                Vector3 target = planePoint + _dragOffset;
+
+                // Keep the item's full bounds inside the room walls.
+                Vector3 center = target + _dragCenterOffset;
+                center.x = Mathf.Clamp(center.x,
+                    -_roomHalfExtents.x + _dragHalfSize.x, _roomHalfExtents.x - _dragHalfSize.x);
+                center.z = Mathf.Clamp(center.z,
+                    -_roomHalfExtents.y + _dragHalfSize.z, _roomHalfExtents.y - _dragHalfSize.z);
+                _draggedItem.transform.position = center - _dragCenterOffset;
             } else if (!pressed && _draggedItem != null) {
                 _draggedItem.ClearOwnership();
                 _draggedItem = null;

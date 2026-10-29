@@ -426,6 +426,11 @@ namespace DollHouse.EditorSetup {
         }
 
         private static GameObject BuildFingerPrefab(Material[] mats) {
+            // The shipped prefab was hand-tuned afterwards (realhand.fbx, oriented and
+            // anchored at the fingertip) — never clobber it on a re-run.
+            var existingPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(kResourcesDir + "/GiantFinger.prefab");
+            if (existingPrefab != null) return existingPrefab;
+
             var root = new GameObject("GiantFinger");
             try {
                 GameObject model = null;

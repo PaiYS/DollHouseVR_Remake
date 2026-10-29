@@ -81,7 +81,13 @@ namespace DollHouse {
             _captureBuffer.SetPixels32(_webcamTexture.GetPixels32());
             _captureBuffer.Apply(false);
 
-            model.frameData = _captureBuffer.EncodeToJPG(_jpegQuality);
+            byte[] jpeg = _captureBuffer.EncodeToJPG(_jpegQuality);
+            model.frameData = jpeg;
+
+            // Local preview so the sender's ceiling shows the feed too
+            // (the bird's-eye camera culls the ceiling, but the Scene view
+            // and any mirror display will show it).
+            ApplyFrame(jpeg);
         }
 
         private void OnDestroy() {

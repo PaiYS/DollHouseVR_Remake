@@ -597,6 +597,15 @@ namespace DollHouse.EditorSetup {
             var normcoreGO = new GameObject("Normcore");
             var realtime = normcoreGO.AddComponent<Realtime>();
             AssignAppSettings(realtime);
+
+            // Normcore 3 enables "join room on start" ('Test Room') by default,
+            // which races RoleManager's own Connect() and kills it. Disable it.
+            var rtso = new SerializedObject(realtime);
+            SerializedProperty joinOnStart = rtso.FindProperty("_joinRoomOnStartOptions._enabled");
+            if (joinOnStart != null) {
+                joinOnStart.boolValue = false;
+                rtso.ApplyModifiedPropertiesWithoutUndo();
+            }
             var avatarManager = normcoreGO.AddComponent<RealtimeAvatarManager>();
 
             var amso = new SerializedObject(avatarManager);

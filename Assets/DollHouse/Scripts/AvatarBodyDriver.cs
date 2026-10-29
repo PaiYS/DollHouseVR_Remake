@@ -23,6 +23,11 @@ namespace DollHouse {
         [SerializeField] private float _eyeHeightOfModel = 1.65f; // head-bone height in the model
         [SerializeField] private float _turnSpeed = 6f;
 
+        [Header("Locomotion animation")]
+        [SerializeField] private Animator _animator;    // ThirdPersonAnimatorController (Forward/Turn/OnGround)
+        [SerializeField] private float _walkSpeedForFullForward = 2.2f; // m/s mapped to Forward = 1
+        [SerializeField] private float _turnRateForFullTurn = 180f;     // deg/s mapped to Turn = 1
+
         [Header("Left arm chain")]
         [SerializeField] private Transform _leftUpperArm;
         [SerializeField] private Transform _leftForeArm;
@@ -39,8 +44,16 @@ namespace DollHouse {
         private Quaternion _neckBindWorldInverseTimesBody; // neck bind relative to body yaw
         private float _lUpperLen, _lLowerLen, _rUpperLen, _rLowerLen;
         private float _bodyYaw;
+        private Vector3 _lastBodyPos;
+        private float _smoothedSpeed;
 
         private void Start() {
+            if (_animator != null) {
+                _animator.applyRootMotion = false; // the driver positions the body
+                _animator.SetBool("OnGround", true);
+                _animator.SetBool("Crouch", false);
+            }
+            _lastBodyPos = _bodyRoot != null ? _bodyRoot.position : transform.position;
             if (_neckBone != null) {
                 _neckBindLocal = _neckBone.localRotation;
                 // Neck bind orientation relative to the body, captured in bind pose.
@@ -70,11 +83,27 @@ namespace DollHouse {
             _bodyRoot.position = new Vector3(headPos.x, floorY, headPos.z);
 
             Vector3 flatForward = _headTarget.forward; flatForward.y = 0f;
+            float yawBefore = _bodyYaw;
             if (flatForward.sqrMagnitude > 0.001f) {
                 float targetYaw = Quaternion.LookRotation(flatForward).eulerAngles.y;
                 _bodyYaw = Mathf.LerpAngle(_bodyYaw, targetYaw, Time.deltaTime * _turnSpeed);
             }
             _bodyRoot.rotation = Quaternion.Euler(0f, _bodyYaw, 0f);
+
+            // --- locomotion animation from actual body motion
+            if (_animator != null && Time.deltaTime > 0.0001f) {
+                Vector3 planarDelta = _bodyRoot.position - _lastBodyPos; planarDelta.y = 0f;
+                float speed = planarDelta.magnitude / Time.deltaTime;
+                _smoothedSpeed = Mathf.Lerp(_smoothedSpeed, speed, Time.deltaTime * 8f);
+                float forward = Mathf.Clamp01(_smoothedSpeed / _walkSpeedForFullForward);
+
+                float yawRate = Mathf.DeltaAngle(yawBefore, _bodyYaw) / Time.deltaTime; // deg/s
+                float turn = Mathf.Clamp(yawRate / _turnRateForFullTurn, -1f, 1f);
+
+                _animator.SetFloat("Forward", forward, 0.1f, Time.deltaTime);
+                _animator.SetFloat("Turn", turn, 0.1f, Time.deltaTime);
+                _lastBodyPos = _bodyRoot.position;
+            }
 
             // --- restore bind pose so the solves below are deterministic
             if (_neckBone != null) _neckBone.localRotation = _neckBindLocal;

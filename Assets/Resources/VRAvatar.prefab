@@ -455,6 +455,9 @@ MonoBehaviour:
   _neckBone: {fileID: 5108399675515500530}
   _eyeHeightOfModel: 1.65
   _turnSpeed: 6
+  _animator: {fileID: 5108399675506202698}
+  _walkSpeedForFullForward: 2.2
+  _turnRateForFullTurn: 180
   _leftUpperArm: {fileID: 5108399675515500476}
   _leftForeArm: {fileID: 5108399675515500468}
   _leftHandBone: {fileID: 5108399675515500426}
@@ -513,11 +516,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 2c00170a6cfe43c47b7aace05164abad, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
+    - target: {fileID: 9500000, guid: 2c00170a6cfe43c47b7aace05164abad, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c00170a6cfe43c47b7aace05164abad, type: 3}
+--- !u!95 &5108399675506202698 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: 2c00170a6cfe43c47b7aace05164abad, type: 3}
+  m_PrefabInstance: {fileID: 5108399675515628842}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5108399675515500426 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400032, guid: 2c00170a6cfe43c47b7aace05164abad, type: 3}

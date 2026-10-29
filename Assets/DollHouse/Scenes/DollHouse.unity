@@ -2460,6 +2460,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294966779
   _fingerPrefabName: GiantFinger
+  _roomHalfExtents: {x: 3.95, y: 2.95}
 --- !u!4 &1714183631
 Transform:
   m_ObjectHideFlags: 0

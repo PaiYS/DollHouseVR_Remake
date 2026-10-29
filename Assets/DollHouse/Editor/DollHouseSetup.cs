@@ -604,6 +604,8 @@ namespace DollHouse.EditorSetup {
             CreateWall(room.transform, mats[Mats.Wall], new Vector3(0f, 1.35f, -3.05f), new Vector3(8.2f, 2.7f, 0.1f), "Wall S");
             CreateWall(room.transform, mats[Mats.Wall], new Vector3( 4.05f, 1.35f, 0f), new Vector3(0.1f, 2.7f, 6.2f), "Wall E");
             CreateWall(room.transform, mats[Mats.Wall], new Vector3(-4.05f, 1.35f, 0f), new Vector3(0.1f, 2.7f, 6.2f), "Wall W");
+            // Dollhouse look: walls render only from inside the room.
+            DollHouseScreenshots.ConvertWallsToInnerFaces();
 
             var ceiling = GameObject.CreatePrimitive(PrimitiveType.Plane);
             ceiling.name = "Ceiling";

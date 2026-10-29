@@ -242,6 +242,35 @@ namespace DollHouse.EditorSetup {
             }
         }
 
+        /// <summary>Headless Windows build (bird's-eye touchscreen client):
+        /// -buildTarget Win64 -executeMethod ... BuildDesktop</summary>
+        public static void BuildDesktop() {
+            try {
+                // The touchscreen client runs as a resizable desktop window.
+                PlayerSettings.fullScreenMode = FullScreenMode.Windowed;
+                PlayerSettings.defaultScreenWidth  = 1600;
+                PlayerSettings.defaultScreenHeight = 1000;
+                PlayerSettings.resizableWindow = true;
+
+                var options = new BuildPlayerOptions {
+                    scenes           = new[] { kScenePath },
+                    locationPathName = "Builds/Desktop/DollHouseVR.exe",
+                    target           = BuildTarget.StandaloneWindows64,
+                    options          = BuildOptions.None,
+                };
+                var report = BuildPipeline.BuildPlayer(options);
+                var summary = report.summary;
+                Debug.Log($"DollHouseSetup: BuildDesktop result={summary.result} " +
+                          $"sizeMB={summary.totalSize / (1024 * 1024)} errors={summary.totalErrors} " +
+                          $"time={summary.totalTime}");
+                if (summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
+                    EditorApplication.Exit(1);
+            } catch (Exception e) {
+                Debug.LogError("DollHouseSetup: BuildDesktop FAILED: " + e);
+                EditorApplication.Exit(1);
+            }
+        }
+
         // ================================================================= PASS 2
 
         public static void BuildContent() {

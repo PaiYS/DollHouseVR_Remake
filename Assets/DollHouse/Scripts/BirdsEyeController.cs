@@ -16,6 +16,8 @@ namespace DollHouse {
         [SerializeField] private string _fingerPrefabName = "GiantFinger";
         [Tooltip("Half extents of the room interior (x, z); dragged furniture is kept inside.")]
         [SerializeField] private Vector2 _roomHalfExtents = new Vector2(3.95f, 2.95f);
+        [Tooltip("Optional: suspends this controller in sketch mode and blocks presses on its UI.")]
+        [SerializeField] private SketchController _sketchController;
 
         private GiantFinger       _finger;
         private RealtimeTransform _fingerTransform;
@@ -26,6 +28,8 @@ namespace DollHouse {
         private Vector3           _dragHalfSize;     // world AABB extents of the dragged item
         private Vector3           _dragCenterOffset; // bounds center relative to transform position
         private bool              _wasPressed;
+        private bool              _suspended;
+        private bool              _pressBlockedByUI;
 
         private void OnEnable() {
             if (_realtime != null)
@@ -49,11 +53,35 @@ namespace DollHouse {
             _fingerTransform = fingerGO.GetComponent<RealtimeTransform>();
         }
 
+        /// <summary>While suspended (sketch mode) this controller ignores input.</summary>
+        public void SetSuspended(bool suspended) {
+            _suspended = suspended;
+            if (!suspended)
+                return;
+            if (_draggedItem != null) {
+                _draggedItem.ClearOwnership();
+                _draggedItem = null;
+            }
+            if (_finger != null)
+                _finger.SetVisible(false);
+            _wasPressed       = false;
+            _pressBlockedByUI = false;
+        }
+
         private void Update() {
-            if (_camera == null || _realtime == null || !_realtime.connected)
+            if (_suspended || _camera == null || _realtime == null || !_realtime.connected)
                 return;
 
             bool pressed = TryGetPointer(out Vector2 screenPos);
+
+            // A press that starts on the sketch UI is ignored for its whole duration.
+            if (pressed && !_wasPressed && _sketchController != null &&
+                _sketchController.IsPointerOverUI(screenPos))
+                _pressBlockedByUI = true;
+            if (!pressed)
+                _pressBlockedByUI = false;
+            if (_pressBlockedByUI)
+                pressed = false;
             Ray ray = pressed ? _camera.ScreenPointToRay(screenPos) : default;
 
             // --- Furniture dragging -------------------------------------------------
@@ -105,7 +133,7 @@ namespace DollHouse {
             return plane.Raycast(ray, out float enter) ? ray.GetPoint(enter) : ray.origin;
         }
 
-        private static bool TryGetPointer(out Vector2 position) {
+        internal static bool TryGetPointer(out Vector2 position) {
             Touchscreen touch = Touchscreen.current;
             if (touch != null && touch.primaryTouch.press.isPressed) {
                 position = touch.primaryTouch.position.ReadValue();

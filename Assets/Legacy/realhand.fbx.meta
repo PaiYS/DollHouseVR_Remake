@@ -1,0 +1,183 @@
+fileFormatVersion: 2
+guid: 94f8f2fa68cd3c94aad948399957d0c5
+timeCreated: 1450925179
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Hand-mit-Arm-5d - D1-1
+    100002: Hand-mit-Arm-5d - D2-1
+    100004: Hand-mit-Arm-5d - D3d-1
+    100006: Hand-mit-Arm-5d - HF-5d-1
+    100008: Hand-mit-Arm-5d - K1-1
+    100010: Hand-mit-Arm-5d - K2-1
+    100012: Hand-mit-Arm-5d - K3-1
+    100014: Hand-mit-Arm-5d - Kugelgelenk-D-1
+    100016: Hand-mit-Arm-5d - Kugelgelenk-H-1
+    100018: Hand-mit-Arm-5d - Kugelgelenk-K-1
+    100020: Hand-mit-Arm-5d - Kugelgelenk-M-1
+    100022: Hand-mit-Arm-5d - Kugelgelenk-R-1
+    100024: Hand-mit-Arm-5d - Kugelgelenk-Z-1
+    100026: Hand-mit-Arm-5d - M1-1
+    100028: Hand-mit-Arm-5d - M2-1
+    100030: Hand-mit-Arm-5d - M3-1
+    100032: Hand-mit-Arm-5d - R1-1
+    100034: Hand-mit-Arm-5d - R2-1
+    100036: Hand-mit-Arm-5d - R3-1
+    100038: Hand-mit-Arm-5d - Z1-1
+    100040: Hand-mit-Arm-5d - Z2-1
+    100042: Hand-mit-Arm-5d - Z3-1
+    100044: //RootNode
+    400000: Hand-mit-Arm-5d - D1-1
+    400002: Hand-mit-Arm-5d - D2-1
+    400004: Hand-mit-Arm-5d - D3d-1
+    400006: Hand-mit-Arm-5d - HF-5d-1
+    400008: Hand-mit-Arm-5d - K1-1
+    400010: Hand-mit-Arm-5d - K2-1
+    400012: Hand-mit-Arm-5d - K3-1
+    400014: Hand-mit-Arm-5d - Kugelgelenk-D-1
+    400016: Hand-mit-Arm-5d - Kugelgelenk-H-1
+    400018: Hand-mit-Arm-5d - Kugelgelenk-K-1
+    400020: Hand-mit-Arm-5d - Kugelgelenk-M-1
+    400022: Hand-mit-Arm-5d - Kugelgelenk-R-1
+    400024: Hand-mit-Arm-5d - Kugelgelenk-Z-1
+    400026: Hand-mit-Arm-5d - M1-1
+    400028: Hand-mit-Arm-5d - M2-1
+    400030: Hand-mit-Arm-5d - M3-1
+    400032: Hand-mit-Arm-5d - R1-1
+    400034: Hand-mit-Arm-5d - R2-1
+    400036: Hand-mit-Arm-5d - R3-1
+    400038: Hand-mit-Arm-5d - Z1-1
+    400040: Hand-mit-Arm-5d - Z2-1
+    400042: Hand-mit-Arm-5d - Z3-1
+    400044: //RootNode
+    2300000: Hand-mit-Arm-5d - D1-1
+    2300002: Hand-mit-Arm-5d - D2-1
+    2300004: Hand-mit-Arm-5d - D3d-1
+    2300006: Hand-mit-Arm-5d - HF-5d-1
+    2300008: Hand-mit-Arm-5d - K1-1
+    2300010: Hand-mit-Arm-5d - K2-1
+    2300012: Hand-mit-Arm-5d - K3-1
+    2300014: Hand-mit-Arm-5d - Kugelgelenk-D-1
+    2300016: Hand-mit-Arm-5d - Kugelgelenk-H-1
+    2300018: Hand-mit-Arm-5d - Kugelgelenk-K-1
+    2300020: Hand-mit-Arm-5d - Kugelgelenk-M-1
+    2300022: Hand-mit-Arm-5d - Kugelgelenk-R-1
+    2300024: Hand-mit-Arm-5d - Kugelgelenk-Z-1
+    2300026: Hand-mit-Arm-5d - M1-1
+    2300028: Hand-mit-Arm-5d - M2-1
+    2300030: Hand-mit-Arm-5d - M3-1
+    2300032: Hand-mit-Arm-5d - R1-1
+    2300034: Hand-mit-Arm-5d - R2-1
+    2300036: Hand-mit-Arm-5d - R3-1
+    2300038: Hand-mit-Arm-5d - Z1-1
+    2300040: Hand-mit-Arm-5d - Z2-1
+    2300042: Hand-mit-Arm-5d - Z3-1
+    3300000: Hand-mit-Arm-5d - D1-1
+    3300002: Hand-mit-Arm-5d - D2-1
+    3300004: Hand-mit-Arm-5d - D3d-1
+    3300006: Hand-mit-Arm-5d - HF-5d-1
+    3300008: Hand-mit-Arm-5d - K1-1
+    3300010: Hand-mit-Arm-5d - K2-1
+    3300012: Hand-mit-Arm-5d - K3-1
+    3300014: Hand-mit-Arm-5d - Kugelgelenk-D-1
+    3300016: Hand-mit-Arm-5d - Kugelgelenk-H-1
+    3300018: Hand-mit-Arm-5d - Kugelgelenk-K-1
+    3300020: Hand-mit-Arm-5d - Kugelgelenk-M-1
+    3300022: Hand-mit-Arm-5d - Kugelgelenk-R-1
+    3300024: Hand-mit-Arm-5d - Kugelgelenk-Z-1
+    3300026: Hand-mit-Arm-5d - M1-1
+    3300028: Hand-mit-Arm-5d - M2-1
+    3300030: Hand-mit-Arm-5d - M3-1
+    3300032: Hand-mit-Arm-5d - R1-1
+    3300034: Hand-mit-Arm-5d - R2-1
+    3300036: Hand-mit-Arm-5d - R3-1
+    3300038: Hand-mit-Arm-5d - Z1-1
+    3300040: Hand-mit-Arm-5d - Z2-1
+    3300042: Hand-mit-Arm-5d - Z3-1
+    4300000: Hand-mit-Arm-5d - Z3-1
+    4300002: Hand-mit-Arm-5d - Z2-1
+    4300004: Hand-mit-Arm-5d - Z1-1
+    4300006: Hand-mit-Arm-5d - R3-1
+    4300008: Hand-mit-Arm-5d - R2-1
+    4300010: Hand-mit-Arm-5d - R1-1
+    4300012: Hand-mit-Arm-5d - M3-1
+    4300014: Hand-mit-Arm-5d - M2-1
+    4300016: Hand-mit-Arm-5d - M1-1
+    4300018: Hand-mit-Arm-5d - Kugelgelenk-Z-1
+    4300020: Hand-mit-Arm-5d - Kugelgelenk-R-1
+    4300022: Hand-mit-Arm-5d - Kugelgelenk-M-1
+    4300024: Hand-mit-Arm-5d - Kugelgelenk-K-1
+    4300026: Hand-mit-Arm-5d - Kugelgelenk-H-1
+    4300028: Hand-mit-Arm-5d - Kugelgelenk-D-1
+    4300030: Hand-mit-Arm-5d - K3-1
+    4300032: Hand-mit-Arm-5d - K2-1
+    4300034: Hand-mit-Arm-5d - K1-1
+    4300036: Hand-mit-Arm-5d - HF-5d-1
+    4300038: Hand-mit-Arm-5d - D3d-1
+    4300040: Hand-mit-Arm-5d - D2-1
+    4300042: Hand-mit-Arm-5d - D1-1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

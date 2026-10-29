@@ -70,6 +70,11 @@ wipes them for everyone.
    ```bash
    Unity.exe -batchmode -quit -projectPath . -buildTarget Android -executeMethod DollHouse.EditorSetup.DollHouseSetup.BuildQuest
    ```
+5. **Touchscreen PC**: unzip `Builds/DollHouseVR_Desktop_Win64.zip` and run
+   `DollHouseVR.exe` (no VR initialized on desktop), or rebuild with
+   `-buildTarget Win64 -executeMethod DollHouse.EditorSetup.DollHouseSetup.BuildDesktop`.
+   Note: the prebuilt zip ships with the app key that was current at build
+   time — rebuild after setting your own key.
 
 Both clients auto-join Normcore room `DollHouse`.
 

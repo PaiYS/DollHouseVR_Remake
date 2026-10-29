@@ -46,3 +46,4 @@ crashlytics-build.properties
 
 # Unity Android build intermediates
 /.utmp/
+!/Builds/DollHouseVR_Desktop_Win64.zip

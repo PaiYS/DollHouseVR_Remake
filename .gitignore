@@ -43,3 +43,6 @@ crashlytics-build.properties
 
 # Ship the ready-made Quest build despite the rules above
 !/Builds/DollHouseVR.apk
+
+# Unity Android build intermediates
+/.utmp/

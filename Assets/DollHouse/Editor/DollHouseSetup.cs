@@ -130,6 +130,7 @@ namespace DollHouse.EditorSetup {
         }
 
         private static void SetupPlayerSettings() {
+            PlayerSettings.colorSpace = ColorSpace.Linear; // OpenXR blocks Gamma + GLES
             PlayerSettings.companyName = "ProtoOwl";
             PlayerSettings.productName = "DollHouseVR";
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.protoowl.dollhousevr");
@@ -211,6 +212,34 @@ namespace DollHouse.EditorSetup {
                 }
             }
             EditorUtility.SetDirty(settings);
+        }
+
+        // ================================================================= BUILD
+
+        /// <summary>Headless Quest build: -buildTarget Android -executeMethod ... BuildQuest</summary>
+        public static void BuildQuest() {
+            try {
+                if (PlayerSettings.colorSpace != ColorSpace.Linear) {
+                    PlayerSettings.colorSpace = ColorSpace.Linear;
+                    AssetDatabase.SaveAssets();
+                }
+                var options = new BuildPlayerOptions {
+                    scenes           = new[] { kScenePath },
+                    locationPathName = "Builds/DollHouseVR.apk",
+                    target           = BuildTarget.Android,
+                    options          = BuildOptions.None,
+                };
+                var report = BuildPipeline.BuildPlayer(options);
+                var summary = report.summary;
+                Debug.Log($"DollHouseSetup: BuildQuest result={summary.result} " +
+                          $"sizeMB={summary.totalSize / (1024 * 1024)} errors={summary.totalErrors} " +
+                          $"time={summary.totalTime}");
+                if (summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
+                    EditorApplication.Exit(1);
+            } catch (Exception e) {
+                Debug.LogError("DollHouseSetup: BuildQuest FAILED: " + e);
+                EditorApplication.Exit(1);
+            }
         }
 
         // ================================================================= PASS 2

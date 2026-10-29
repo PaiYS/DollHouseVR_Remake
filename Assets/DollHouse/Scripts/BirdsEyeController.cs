@@ -18,11 +18,14 @@ namespace DollHouse {
         [SerializeField] private Vector2 _roomHalfExtents = new Vector2(3.95f, 2.95f);
         [Tooltip("Optional: suspends this controller in sketch mode and blocks presses on its UI.")]
         [SerializeField] private SketchController _sketchController;
+        [Tooltip("Degrees per mouse scroll notch while dragging furniture.")]
+        [SerializeField] private float _rotateStepDegrees = 15f;
 
         private GiantFinger       _finger;
         private RealtimeTransform _fingerTransform;
 
         private RealtimeTransform _draggedItem;
+        private Collider          _draggedCollider;
         private float             _dragPlaneY;
         private Vector3           _dragOffset;
         private Vector3           _dragHalfSize;     // world AABB extents of the dragged item
@@ -30,6 +33,8 @@ namespace DollHouse {
         private bool              _wasPressed;
         private bool              _suspended;
         private bool              _pressBlockedByUI;
+        private bool              _twisting;
+        private float             _lastTwistAngle;
 
         private void OnEnable() {
             if (_realtime != null)
@@ -61,7 +66,9 @@ namespace DollHouse {
             if (_draggedItem != null) {
                 _draggedItem.ClearOwnership();
                 _draggedItem = null;
+                _draggedCollider = null;
             }
+            _twisting = false;
             if (_finger != null)
                 _finger.SetVisible(false);
             _wasPressed       = false;
@@ -90,7 +97,8 @@ namespace DollHouse {
                     RealtimeTransform rt = grabHit.collider.GetComponentInParent<RealtimeTransform>();
                     if (rt != null) {
                         rt.RequestOwnership();
-                        _draggedItem = rt;
+                        _draggedItem    = rt;
+                        _draggedCollider = grabHit.collider;
                         _dragPlaneY  = rt.transform.position.y;
                         Vector3 planePoint = PointOnPlane(ray, _dragPlaneY);
                         _dragOffset  = rt.transform.position - planePoint;
@@ -101,6 +109,20 @@ namespace DollHouse {
                 }
             } else if (pressed && _draggedItem != null) {
                 Vector3 planePoint = PointOnPlane(ray, _dragPlaneY);
+
+                // --- Rotation: two-finger twist, or mouse scroll while dragging.
+                float rotationDelta = ReadRotationDelta();
+                if (Mathf.Abs(rotationDelta) > 0.01f) {
+                    Vector3 pivot = _draggedItem.transform.position + _dragCenterOffset;
+                    _draggedItem.transform.RotateAround(pivot, Vector3.up, rotationDelta);
+                    Physics.SyncTransforms(); // collider bounds must reflect the new yaw
+                    Bounds b = _draggedCollider != null ? _draggedCollider.bounds
+                        : new Bounds(_draggedItem.transform.position, _dragHalfSize * 2f);
+                    _dragHalfSize     = b.extents;
+                    _dragCenterOffset = b.center - _draggedItem.transform.position;
+                    _dragOffset       = _draggedItem.transform.position - planePoint; // no jump
+                }
+
                 Vector3 target = planePoint + _dragOffset;
 
                 // Keep the item's full bounds inside the room walls.
@@ -113,6 +135,8 @@ namespace DollHouse {
             } else if (!pressed && _draggedItem != null) {
                 _draggedItem.ClearOwnership();
                 _draggedItem = null;
+                _draggedCollider = null;
+                _twisting = false;
             }
 
             // --- Giant finger -------------------------------------------------------
@@ -126,6 +150,47 @@ namespace DollHouse {
             }
 
             _wasPressed = pressed;
+        }
+
+        /// <summary>
+        /// Yaw delta for the dragged item this frame: the angle change of the line
+        /// between the first two touches (twist gesture), plus mouse-wheel steps.
+        /// </summary>
+        private float ReadRotationDelta() {
+            float delta = 0f;
+
+            Touchscreen touchscreen = Touchscreen.current;
+            if (touchscreen != null) {
+                int count = 0;
+                Vector2 p0 = default, p1 = default;
+                foreach (var touch in touchscreen.touches) {
+                    if (!touch.press.isPressed) continue;
+                    if (count == 0) p0 = touch.position.ReadValue();
+                    else if (count == 1) { p1 = touch.position.ReadValue(); }
+                    if (++count >= 2) break;
+                }
+                if (count >= 2) {
+                    float angle = Mathf.Atan2(p1.y - p0.y, p1.x - p0.x) * Mathf.Rad2Deg;
+                    if (_twisting)
+                        delta -= Mathf.DeltaAngle(_lastTwistAngle, angle); // screen CCW = world CW yaw
+                    _lastTwistAngle = angle;
+                    _twisting = true;
+                } else {
+                    _twisting = false;
+                }
+            }
+
+            Mouse mouse = Mouse.current;
+            if (mouse != null) {
+                float scroll = mouse.scroll.ReadValue().y;
+                if (Mathf.Abs(scroll) > 0.01f) {
+                    // Windows wheels report +-120 per notch; trackpads report small values.
+                    float notches = Mathf.Clamp(Mathf.Abs(scroll) >= 60f ? scroll / 120f : Mathf.Sign(scroll), -3f, 3f);
+                    delta += notches * _rotateStepDegrees;
+                }
+            }
+
+            return Mathf.Clamp(delta, -45f, 45f);
         }
 
         private static Vector3 PointOnPlane(Ray ray, float y) {

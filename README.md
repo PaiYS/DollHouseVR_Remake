@@ -14,7 +14,7 @@ a designer/client collaboration tool where both see each other's presence.
 | Device | Quest 2 / 3 / Pro (standalone APK) | Windows touchscreen (or editor Play mode) |
 | View | Inside the room, human scale | Orthographic top-down |
 | Presence | Full humanoid avatar with gaze cone | Giant pointing hand + webcam face on the ceiling |
-| Interactions | Walk (thumbstick), look, point | Drag furniture, point (giant finger), sketch annotations, webcam |
+| Interactions | Walk (thumbstick), look, point | Drag + rotate furniture (two-finger twist / scroll wheel), point (giant finger), sketch annotations, webcam |
 
 ### The avatar and the vision cone
 

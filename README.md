@@ -57,11 +57,24 @@ wipes them for everyone.
 | Webcam physically on the VR PC | Webcam frames streamed over the network |
 | Role switch with keyboard key | Automatic: Android build = VR, desktop = bird's-eye |
 
+## App key gate
+
+Both clients open on a key screen before connecting: the build's default
+Normcore App Key is pre-filled — just press **Enter** — or press **Edit** to use
+your own key (free at https://dashboard.normcore.io). A custom key is remembered
+per device. On the desktop it's a regular dialog; in VR it's a floating card you
+click with the controller ray (Edit opens the Quest system keyboard).
+
+![Desktop app-key panel over the bird's-eye view](Docs/images/appkey-desktop.png)
+
+![VR app-key card floating in the room](Docs/images/appkey-vr.png)
+
 ## Quick start
 
 1. Create a (free) app at https://dashboard.normcore.io and paste its **App Key**
    into `Assets/DollHouse/Settings/NormcoreAppSettings.asset`
-   (tracked copy holds a placeholder on purpose).
+   (tracked copy holds a placeholder on purpose) — or just enter it on the
+   in-app key screen at launch.
 2. Open `Assets/DollHouse/Scenes/DollHouse.unity`.
 3. **Editor Play mode** = the bird's-eye designer (no headset needed).
 4. **Quest**: install `Builds/DollHouseVR.apk` (committed, Quest 2/3/Pro), or

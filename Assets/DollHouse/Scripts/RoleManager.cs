@@ -55,7 +55,14 @@ namespace DollHouse {
         }
 
         private void Start() {
-            if (_realtime != null && !string.IsNullOrEmpty(_roomName))
+            // When an AppKeyGate is present it confirms the app key first and
+            // then calls ConnectToRoom(); otherwise connect immediately.
+            if (FindFirstObjectByType<AppKeyGate>() == null)
+                ConnectToRoom();
+        }
+
+        public void ConnectToRoom() {
+            if (_realtime != null && !string.IsNullOrEmpty(_roomName) && !_realtime.connected)
                 _realtime.Connect(_roomName);
         }
     }
